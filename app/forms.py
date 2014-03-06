@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import TextField, PasswordField, TextAreaField, SelectField, DecimalField, IntegerField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.validators import Required, Email, EqualTo, Length
+from wtforms.validators import Required, Email, EqualTo, NumberRange, Regexp
 from models import Category
 
 def get_category():
@@ -30,7 +30,7 @@ class SignupForm(Form):
     confirm = PasswordField('Confirm_Password', validators=[Required('Enter confirm password')])
 
 class QuantityForm(Form):
-    quantity = IntegerField('Quantity', validators=[Required('Please eneter quantity.'), Length(min=1, max=2)], default=1)
+    quantity = IntegerField('Quantity', validators=[Required('Please eneter quantity.'), NumberRange(min=1, max=30)], default=1)
 
 class UserInfoForm(Form):
     name = TextField('Name', validators=[Required('please enter your name.')])
@@ -39,7 +39,7 @@ class UserInfoForm(Form):
     address = TextAreaField('Address', validators=[Required('Please enter your address.')])
     city = TextField('City',validators=[Required('Please enter your city.')] )
     state = TextField('State', validators=[Required('Please enter your state.')])
-    pincode = TextField('Pincode', validators=[Required('Please enter your address.')])
+    pincode = TextField('Pincode', validators=[Required('Please enter your pincode.')])
 
 class ChangePasswordForm(Form):
     password = PasswordField('Password', validators=[Required('Password required'), EqualTo('confirm','Password does not match.')])

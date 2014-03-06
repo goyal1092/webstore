@@ -1,73 +1,65 @@
 {% extends 'base.html' %}
-
 {% block content%}
 
-      {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class='text-danger'>
-    {% for message in messages %}
-      <p>{{ message }}</p>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class='text-danger'>
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
-<h2>My Cart</h2>
-
-
-
+    <h2>My Cart</h2>
     {% if count > 0 %}
-              <div class="table-responsive">
-<table class="table table-striped table-responsive" id="cart_table">
-<thead>
-<tr>
-<th>Item Description</th>
-<th>Price</th>
-<th>Quantity</th>
-<th>Sub Total</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
+        <div class="table-responsive">
 
-{% for item in cart %}
-<tr>
-<td>{{ item.products.name }}</td>
-<td>INR. {{ item.products.price }}</td>
-<td>
-   <form method="post" action="" enctype="multipart/form-data">
-    <input type="text" value="{{ item.quantity }}" size="2" maxlength="5" name="update_quantity" class="item_quantity" id="{{ item.id }}"/>
-        <input type="hidden" value="{{ item.id }}" name="cart_info" >
-        <button type="submit" value="Save" name="submit" class="btn btn-sm btn-primary quantity_save" id="save_{{ item.id }}"><span class="glyphicon glyphicon-save"></span> Save</button>
-    </form>
-</td>
-<td>INR.{{ item.price() }}</td>
-<td>
-     <form method="post" action="" enctype="multipart/form-data">
-        <input type="hidden" value="{{ item.id }}" name="cart_info" >
-        <button type="submit" value="Remove" name="submit" class="btn btn-sm btn-danger" ><span class="glyphicon glyphicon-trash"></span> Delete</button>
-    </form>
-</td>
+            <table class="table table-striped table-responsive" id="cart_table">
+                <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Sub Total</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cart %}
+                    <tr>
+                        <td>{{ item.products.name }}</td>
+                        <td>INR. {{ item.products.price }}</td>
+                        <td>
+                            <form method="post" action="" enctype="multipart/form-data">
+                                <input type="text" value="{{ item.quantity }}" size="2" maxlength="5" name="update_quantity" class="item_quantity" id="{{ item.id }}"/>
+                                <input type="hidden" value="{{ item.id }}" name="cart_info" >
+                                <button type="submit" value="Save" name="submit" class="btn btn-sm btn-primary quantity_save" id="save_{{ item.id }}"><span class="glyphicon glyphicon-save"></span> Save</button>
+                            </form>
+                        </td>
+                        <td>INR.{{ item.price() }}</td>
+                        <td>
+                            <form method="post" action="" enctype="multipart/form-data">
+                                <input type="hidden" value="{{ item.id }}" name="cart_info" >
+                                <button type="submit" value="Remove" name="submit" class="btn btn-sm btn-danger" ><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-</tr>
-{% endfor %}
+            <div class="col-md-12" id="cart_total">
+                <h4 class="pull-right">Estimated Total: INR. {{ total }}</h4>
+            </div>
 
-</tbody>
-</table>
-<div class="col-md-12" id="cart_total">
-    <h4 class="pull-right">Estimated Total: INR. {{ total }}</h4>
-</div>
+            <div class="col-md-12" id="cart_buttons">
+                <a href="{{ url_for('catalog') }}" class="btn btn-lg btn-success pull-left"><...Continue shopping</a>
+                <a href="{{ url_for('checkout_details') }}"class="btn btn-lg btn-success pull-right">Proceed To Payment...></a>
+            </div>
+        </div>
 
-
-
-<div class="col-md-12" id="cart_buttons">
-<a href="{{ url_for('catalog') }}" class="btn btn-lg btn-success pull-left"><...Continue shopping</a>
-        <a href="{{ url_for('checkout_details') }}"class="btn btn-lg btn-success pull-right">Proceed To Payment...></a>
-</div>
-
-              </div>
-
-{% else %}
-    <h3>Your Cart is empty. To add Products go to <a href="{{ url_for('catalog') }}">Catalog</a>.</h3>
-{% endif %}
+    {% else %}
+        <h3>Your Cart is empty. To add Products go to <a href="{{ url_for('catalog') }}">Catalog</a>.</h3>
+    {% endif %}
 {% endblock %}
