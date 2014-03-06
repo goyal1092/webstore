@@ -4,7 +4,7 @@ body #main{
 
 header{
     border-bottom: 1px solid dimgray;
-    padding: 20px;
+    padding: 0,20px;
     margin-bottom: 100px;
 }
 
@@ -28,4 +28,17 @@ footer{
 #main #show_products{
 margin-bottom: 20px;
 padding-top: 20px;
+}
+
+
+#main #cart_buttons{
+    padding-top: 30px;
+}
+
+#main #cart_total{
+   border-top: 1px solid dimgray;
+}
+
+#main #cart_table{
+    margin-bottom: 30px;
 }

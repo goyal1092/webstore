@@ -12,8 +12,6 @@ def get_cart_id():
             cart_id = request.cookies.get('anonymous_user')
         else:
             cart_id = _genrate_cart_id()
-            session['anonymous_user'] = cart_id
-            session.permanent = True
         return cart_id
 
 

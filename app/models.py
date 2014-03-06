@@ -90,9 +90,8 @@ class Cart(db.Model):
     quantity = db.Column(db.Integer)
     product = db.Column(db.Integer, db.ForeignKey('product.id'))
 
-    def augment_quantity(self, quantity):
-        self.quantity += int(quantity)
-        return self.quantity
+    def price(self):
+        return self.quantity * self.products.price
 
 class OrderId(db.Model):
     id = db.Column(db.Integer, primary_key=True)

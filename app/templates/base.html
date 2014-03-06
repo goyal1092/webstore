@@ -21,7 +21,7 @@
         <ul class="nav navbar-nav">
         <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
         <li><a href="{{ url_for('catalog')}}">Catalog</a></li>
-        <li><a href="{{ url_for('cart')}}">Cart:{{ product_count }}</a></li>
+        <li><a href="{{ url_for('cart')}}">Cart <span class="badge">{{ count }}</span></a></li>
        {% if session.username %}
 {#         <li><a href="{{ url_for('user_info') }}">Account</a></li>#}
          <li><a href="{{ url_for('user_logout') }}">logout</a></li>

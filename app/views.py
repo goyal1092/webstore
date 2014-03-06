@@ -17,6 +17,7 @@ def base():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index/', methods=['GET', 'POST'])
 def index():
+    count = shoppingcart.cart_distinct_item_count()
     form = UserLoginForm()
     if request.method == 'POST':
         user = User.query.filter_by(email=form.username.data).first()
@@ -24,7 +25,7 @@ def index():
             if user.check_password(form.password.data):
                 session['username'] = user.email
                 flash('login succesful')
-                resp = make_response(render_template('home.html', user=user))
+                resp = make_response(render_template('home.html', user=user, count=count))
                 resp.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
                 return resp
             else:
@@ -32,11 +33,12 @@ def index():
         else:
             flash('Login not valid')
 
-    return render_template('home.html', form=form)
+    return render_template('home.html', form=form, count=count)
 
 # User Logout
 @app.route('/user/logout/')
 def user_logout():
+
     if 'username' in session:
         session.pop('username', None)
         session.clear()
@@ -49,6 +51,7 @@ def user_logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def user_signup():
     form = SignupForm()
+    count = shoppingcart.cart_distinct_item_count()
     if form.validate_on_submit():
         user = User(email=form.email.data, password=form.password.data, name=form.full_name.data.title())
         db.session.add(user)
@@ -62,12 +65,12 @@ def user_signup():
             raise
 
         return redirect(url_for('index'))
-    return render_template('signup.html', form=form)
+    return render_template('signup.html', form=form, count=count)
 
 # Catalog
 @app.route('/catalog/', methods=['GET', 'POST'])
 def catalog():
-
+    count = shoppingcart.cart_distinct_item_count()
     form = QuantityForm()
     if request.method == 'POST':
         key = request.form['product_slug']
@@ -89,12 +92,12 @@ def catalog():
         if 'username' in session:
             return redirect(url_for('cart'))
         else:
-            resp = make_response(redirect(url_for('cart')))
+            resp = make_response(redirect('/cart'))
             resp.set_cookie('anonymous_user', get_cart_id)
             return resp
     category = Category.query.all()
     product = Product.query.all()
-    return render_template('catalog.html', categories=category, products=product, form=form)
+    return render_template('catalog.html', categories=category, products=product, form=form, count=count)
 
 
 @app.route('/cart/', methods=['GET', 'POST'])
@@ -108,14 +111,16 @@ def cart():
             db.session.commit()
         if val == 'Save':
             quantity = request.form['update_quantity']
-            if quantity < 1:
-                flash('quantity should be integer value.')
+            if int(quantity) < 1:
+                db.session.delete(cart)
+                flash('quantity should be greater than or equal to 1.')
             else:
                 cart.quantity = quantity
-                db.session.commit()
-
+            db.session.commit()
+    total_amount = shoppingcart.get_total_amount()
     cart = shoppingcart.get_cart_items()
-    return render_template('cart.html', cart=cart)
+    product_no = shoppingcart.cart_distinct_item_count()
+    return render_template('cart.html', cart=cart, count=product_no, total=total_amount)
 
 
 # Admin Login
