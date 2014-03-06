@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+{% for order in orders %}
+<h2><a href="{{ url_for('specific_order', pk = order.id ) }}">{{ order.order_id }}</a></h2>
+{% endfor %}
+</body>
+</html>

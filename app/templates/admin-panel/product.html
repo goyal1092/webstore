@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+                    {{form.hidden_tag()}}
+                    <div class="control-group">
+                        <label class="control-label">Category : </label>
+                        <div class="controls">
+                            {{ form.category }}
+
+                        </div>
+                    </div> <a href="{{ url_for('add_category') }}" target="_blank">Add</a>
+                    <div class="control-group">
+                        <label class="control-label">Product Name : </label>
+                        <div class="controls">
+                            {{ form.name(size=20) }}
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Price : </label>
+                        <div class="controls">
+                            {{ form.price(size=20) }}
+
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+
+                        <div class="controls">
+                            <input type="submit" class="btn btn-primary" value="Add">
+                        </div>
+                    </div>
+                </form>
+
+{% for p in product %}
+    {{ p.id }} - {{ p.name }} in {{ p.category }} price-{{ p.price }} - <a href="{{ url_for('edit_product', pk=p.id)}}">Edit</a>- <a href="{{ url_for('delete_product', pk=p.id) }}">Delete</a> <br>
+{% endfor %}
+<a href="{{ url_for('admin_base') }}">Back to admin page</a>
+</body>
+</html>

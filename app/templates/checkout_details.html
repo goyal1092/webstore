@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content%}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<h2>Checkout </h2>
+<form name="checkout" method="post">
+<h5>{{ form.hidden_tag() }}
+    {{ form.name.label }}
+    {{ form.name }}</h5>
+    {% for message in form.name.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+<br>
+<h5>{{ form.email.label }}
+    {{ form.email }}</h5>
+    {% for message in form.email.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+<br>
+  <h5>  {{ form.phone_no.label }}
+    {{ form.phone_no }}</h5>
+{% for message in form.phone_no.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+<br>
+  <h5>  {{ form.address.label }}
+    {{ form.address }}</h5>
+{% for message in form.address.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+<br>
+  <h5>  {{ form.city.label }}
+    {{ form.city }}</h5>
+{% for message in form.city.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+<br>
+ <h5>   {{ form.pincode.label }}
+    {{ form.pincode }}</h5>
+{% for message in form.pincode.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+<br>
+ <h5>   {{ form.state.label }}
+    {{ form.state }}</h5>
+{% for message in form.state.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+<br>
+   <h5> country : INDIA</h5>
+<br>
+<input type="submit" value="Save Information"/>
+</form>
+{% endblock %}

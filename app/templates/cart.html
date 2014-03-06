@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h2>Cart</h2>
+{% for cart in cart %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ product name - {{ cart.products.name}}- price - {{ cart.products.price }}
+    <form method="post" action="" enctype="multipart/form-data">
+      Quantity - <input type="text" value="{{ cart.quantity }}" size="2" maxlength="5" name="update_quantity" class="item_quantity"/>
+        <input type="hidden" value="{{ cart.id }}" name="cart_info" >
+        <input type="submit" value="Save" name="submit">
+    </form>
+    <br>
+    <form method="post" action="" enctype="multipart/form-data">
+        <input type="hidden" value="{{ cart.id }}" name="cart_info" >
+        <input type="submit" value="Remove" name="submit">
+    </form>
+
+
+{% endfor %}
+<a href="{{ url_for('catalog') }}">Continue shopping</a> <br><a href="{{ url_for('checkout_details') }}">Checkout</a></div>
+
+{% endblock %}

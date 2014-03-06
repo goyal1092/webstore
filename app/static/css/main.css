@@ -1,0 +1,31 @@
+body #main{
+    min-height: 600px;
+}
+
+header{
+    border-bottom: 1px solid dimgray;
+    padding: 20px;
+    margin-bottom: 100px;
+}
+
+header #header h2{
+    color: dimgray;
+    font-weight: lighter;
+    font-family: chalkboard;
+}
+
+footer{
+    border-top: 1px solid dimgray;
+    padding: 20px;
+}
+
+
+#main #user_login{
+    margin-top: 100px;
+    padding-left: 100px;
+}
+
+#main #show_products{
+margin-bottom: 20px;
+padding-top: 20px;
+}

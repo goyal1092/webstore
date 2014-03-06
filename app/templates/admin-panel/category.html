@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<form class="form-horizontal" method="post" enctype= "multipart/form-data">
+                            {{form.hidden_tag()}}
+                            <!--name field-->
+                            <div class="control-group">
+                                <label class="control-label">Category Name</label>
+                                <div class="controls">
+                                    {{form.name(size=20)}}
+
+                                </div>
+                            </div>
+                            <!--file input-->
+
+
+                            <!--add buttons-->
+                            <div class="control-group">
+                                <div class="controls">
+                                    <input type="submit" class="btn btn-primary" value="Add">
+                                </div>
+                            </div>
+                        </form>
+
+{% for c in categories %}
+    {{ c.id }}- {{ c.name }}- <a href="{{ url_for('delete_category' , pk = c.id) }}">Delete</a> - <a href="{{ url_for('edit_category' , pk = c.id) }}">Edit</a> <br>
+{% endfor %}
+<a href="{{ url_for('admin_base') }}">Back to admin page</a>
+</body>
+</html>

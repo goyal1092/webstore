@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<form method="post" name="admin-login">
+            {{form.hidden_tag()}}
+            <div>
+                <label>
+                    {{ form.username.label }}
+                </label>
+                <div class="controls">
+                    {{form.username(size=20)}}
+                    {% for message in form.username.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+                </div>
+            </div>
+            <div class="control-group">
+                {{ form.password.label }}
+                <div class="controls">
+                    {{form.password(size=20)}}
+                    {% for message in form.password.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}

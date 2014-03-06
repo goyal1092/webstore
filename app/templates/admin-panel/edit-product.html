@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+ <form method="post" enctype= "multipart/form-data">
+
+        {{form.hidden_tag()}}
+
+                    <div class="control-group">
+                        <label class="control-label">Category : </label>
+                        <div class="controls">
+                            {{ form.category }}
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Product Name : </label>
+                        <div class="controls">
+                            {{ form.name(size=20) }}
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Price : </label>
+                        <div class="controls">
+                            {{ form.price(size=20) }}
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                                <div class="controls">
+                                    <input type="submit" class="btn btn-primary" value="Edit">
+
+                                </div>
+                            </div>
+
+                </form>
+</body>
+</html>
