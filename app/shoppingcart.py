@@ -29,7 +29,7 @@ def get_cart_items():
     cart_items = Cart.query.filter_by(cart_id=get_cart_id())
     return cart_items
 
-def cart_distinct_item_count():
+def product_count():
     return get_cart_items().count()
 
 def get_total_amount():

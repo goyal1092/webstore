@@ -1,13 +1,13 @@
 {% extends 'admin-panel/admin.html' %}
 {% block content %}
-<h2>Product</h2>
+    <h2>Product</h2>
     <br>
-<h4>Edit Product</h4>
+    <h4>Edit Product</h4>
     <br>
-  <form class="form-horizontal" method="post" enctype= "multipart/form-data">
-                            {{form.hidden_tag()}}
+    <form class="form-horizontal" method="post" enctype= "multipart/form-data">
+        {{form.hidden_tag()}}
 
-                              {% for field in form if field.widget.input_type != 'hidden' %}
+        {% for field in form if field.widget.input_type != 'hidden' %}
             <div class="col-md-12">
                 <div class="form-group">
                     <label class="col-md-2 control-label">  {{ field.label }}<span class="text-danger">*</span></label>
@@ -20,15 +20,15 @@
                 </div >
             </div>
         {% endfor %}
-                            <!--Edit buttons-->
-                            <div class="control-group">
-                                <div class="controls col-md-offset-3">
-                                    <input type="submit" class="btn btn-success" value="Save">
+        <!--Edit buttons-->
+        <div class="control-group">
+            <div class="controls col-md-offset-3">
+                <input type="submit" class="btn btn-success" value="Save">
 
-                                </div>
-                            </div>
-                        </form>
+            </div>
+        </div>
+    </form>
 
-      <br>
-<div class="col-md-12"><a href="{{ url_for('add_product') }}">Back to product page</a></div>
+    <br>
+    <div class="col-md-12"><a href="{{ url_for('add_product') }}">Back to product page</a></div>
 {% endblock %}

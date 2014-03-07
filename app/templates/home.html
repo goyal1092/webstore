@@ -1,21 +1,10 @@
 {% extends 'base.html' %}
-
-{% block content%}
- {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for category, message in messages %}
-      <p class="{{ category }}">{{ message }}</p>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
-
+{% block content %}
 <div class="col-md-7" >
     {% if session.username %}
-        <h3> Welcome</h3>
-
+        <h3> Welcome {{ session.username }}</h3>
+<br>
+        <br>
 <h4> Start Shopping <a href="{{ url_for('catalog')}}">Catalog</a> </h4>
         </div>
 {% else %}
@@ -48,7 +37,7 @@
 {% endif %}
 
 <div class="col-md-5">
-<h3>Now Guest Checkout Available.</h3>
+<h3><span class="glyphicon glyphicon-shopping-cart"></span> Guest Checkout Available.</h3>
 <h4> Start Shopping <a href="{{ url_for('catalog')}}">Catalog</a> </h4>
 </div>
 

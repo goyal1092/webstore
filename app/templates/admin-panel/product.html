@@ -1,14 +1,14 @@
 {% extends 'admin-panel/admin.html' %}
 {% block content %}
-<h3>Product</h3>
-   <br>
+    <h3>Product</h3>
+    <br>
 
     <h4>Add Product</h4>
-<br>
-<form class="form-horizontal" method="post" enctype= "multipart/form-data">
-                            {{form.hidden_tag()}}
+    <br>
+    <form class="form-horizontal" method="post" enctype= "multipart/form-data">
+        {{form.hidden_tag()}}
 
-                              {% for field in form if field.widget.input_type != 'hidden' %}
+        {% for field in form if field.widget.input_type != 'hidden' %}
             <div class="col-md-12">
                 <div class="form-group">
                     <label class="col-md-2 control-label">  {{ field.label }}<span class="text-danger">*</span></label>
@@ -21,53 +21,50 @@
                 </div >
             </div>
         {% endfor %}
-                            <div class="control-group">
-                                <div class="controls col-md-offset-3">
-                                    <input type="submit" class="btn btn-success" value="Add">
-                                </div>
-                            </div>
-                        </form>
+        <div class="control-group">
+            <div class="controls col-md-offset-3">
+                <input type="submit" class="btn btn-success" value="Add">
+            </div>
+        </div>
+    </form>
 
-
-<br>
     <br>
-<div class="col-md-6">
-    <table class="table table-striped table-responsive col-md-6" id="cart_table">
-                <thead>
+    <br>
+    <div class="col-md-6">
+        <table class="table table-striped table-responsive col-md-6" id="cart_table">
+            <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in product %}
                 <tr>
-                    <th>S.No</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th></th>
-                    <th></th>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_product', pk=item.id)}}" class="btn btn-sm btn-primary">
+                            <span class="glyphicon glyphicon-edit"></span> Edit</a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('delete_product', pk=item.id) }}" class="btn btn-sm btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Delete</a>
+                    </td>
+
+
                 </tr>
-                </thead>
-                <tbody>
-                {% for item in product %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.price }}</td>
-                        <td>{{ item.category }}</td>
-                        <td>
-                            <a href="{{ url_for('edit_product', pk=item.id)}}" class="btn btn-sm btn-primary">
-                                <span class="glyphicon glyphicon-edit"></span> Edit</a>
-                        </td>
-                        <td>
-                            <a href="{{ url_for('delete_product', pk=item.id) }}" class="btn btn-sm btn-danger">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                Delete</a>
-                        </td>
-
-
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-</div>
-
-
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
     <br>
-<div class="col-md-12"><a href="{{ url_for('admin_base') }}">Back to admin page</a></div>
+    <div class="col-md-12"><a href="{{ url_for('admin_base') }}">Back to admin page</a></div>
 {% endblock %}

@@ -10,35 +10,44 @@
 <body>
 
 <div class="container">
-<header>
+    <header>
 
-   <div class="row">
-       <div class="col-md-6">
-       <div class="pull-left" id="header"><h2>Webstore - Admin Interface</h2></div>
-   </div>
-    <div class="col-md-6">
-        <div class="pull-right">
-        <ul class="nav navbar-nav">
-        <li class="active"><a href="{{ url_for('admin_base') }}">Admin Home</a></li>
-         <li><a href="{{ url_for('admin_logout') }}">logout</a></li>
-      </ul>
-    </div>
-    </div>
-   </div>
-
-</header>
-
-<div id="main">
- {% block content %} {% endblock %}
-</div>
-
- <footer>
-            <div class="row">
-                <div class="col-md-6 .col-sm-6 pull-left" id="footer" >
-                    Copyright - Webstore|Gaurav Goyal
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pull-left" id="header"><h2>Webstore - Admin Interface</h2></div>
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ url_for('admin_base') }}">Admin Home</a></li>
+                        <li><a href="{{ url_for('admin_logout') }}">logout</a></li>
+                    </ul>
                 </div>
             </div>
-        </footer>
+        </div>
+
+    </header>
+
+    <div id="main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %} {% endblock %}
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-md-6 .col-sm-6 pull-left" id="footer" >
+                Copyright - Webstore|Gaurav Goyal
+            </div>
+        </div>
+    </footer>
 </div>
 
 

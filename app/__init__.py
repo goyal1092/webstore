@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 
 app.secret_key = os.urandom(24)
-app.permanent_session_lifetime = timedelta(days=15)
+app.SESSION_REFRESH_EACH_REQUEST = False
 
 admin_login = LoginManager()
 admin_login.init_app(app)

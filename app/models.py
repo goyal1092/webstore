@@ -44,7 +44,6 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, index=True)
     price = db.Column(db.Float, index=True)
-    description = db.Column(db.String(400), index=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     cart = db.relationship('Cart', backref='products', lazy='dynamic')
 
@@ -57,7 +56,7 @@ class User(db.Model):
     pwdhash = db.Column(db.String(54))
     date = db.Column(db.DATETIME)
     name = db.Column(db.String(100))
-    user_info = db.relationship('UserInfo', uselist=False, backref="user_information")
+    user_info = db.relationship('UserInfo', backref="user_information")
 
     def __init__(self, email, password, name):
         self.email = email.lower()
@@ -102,6 +101,8 @@ class OrderId(db.Model):
     date = db.Column(db.DATE)
     email = db.Column(db.String(120))
     phone = db.Column(db.Integer)
+    total_amount = db.Column(db.Integer)
+    user = db.Column(db.String(60))
 
 
 class Ordered(db.Model):

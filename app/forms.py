@@ -30,7 +30,7 @@ class SignupForm(Form):
     confirm = PasswordField('Confirm_Password', validators=[Required('Enter confirm password')])
 
 class QuantityForm(Form):
-    quantity = TextField('Quantity', validators=[Required('Please eneter quantity.')], default=1)
+    quantity = IntegerField('Quantity', validators=[Required('Please eneter quantity.'), NumberRange(min=1, message='Enter valid value')], default=1)
 
 class UserInfoForm(Form):
     name = TextField('Name', validators=[Required('please enter your name.')])

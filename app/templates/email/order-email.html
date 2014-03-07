@@ -36,7 +36,7 @@ dear {{ orderid.buyer_name }}
                         <td>
                             {{ item.quantity }}
                         </td>
-                        <td>INR.</td>
+                        <td>INR.{{ orderid.total_amount }}</td>
 
                     </tr>
                 {% endfor %}

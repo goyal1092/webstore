@@ -21,7 +21,9 @@
         <ul class="nav navbar-nav">
         <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
         <li><a href="{{ url_for('catalog')}}">Catalog</a></li>
-        <li><a href="{{ url_for('cart')}}">Cart <span class="badge">{{ count }}</span></a></li>
+        {% if cart_view %}
+            <li><a href="{{ url_for('cart')}}">Cart <span class="badge">{{ count }}</span></a></li>
+        {% endif %}
        {% if session.username %}
 {#         <li><a href="{{ url_for('user_info') }}">Account</a></li>#}
          <li><a href="{{ url_for('user_logout') }}">logout</a></li>
@@ -34,6 +36,17 @@
 </header>
 
 <div id="main">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for category, message in messages %}
+      <p class="{{ category }}">{{ message }}</p>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<br>
+
  {% block content %} {% endblock %}
 </div>
 
