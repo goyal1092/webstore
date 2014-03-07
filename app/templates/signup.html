@@ -3,12 +3,24 @@
 {% block content%}
 
 <h2>Sign up</h2>
-<form method="post" name="User_login">
-    {{form.hidden_tag()}}
-    <p>Full Name {{ form.full_name }}</p><br>
-    <p>Email {{ form.email }}</p><br>
-    <p>Password {{ form.password }}</p><br>
-    <p>Confirm Password {{ form.confirm }}</p><br>
-    <input type="submit" value="Sign up">
-</form>
+
+  <form  method="post" class="form-horizontal" method="post" name="User_login">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">  {{ field.label }}<span class="text-danger">*</span></label>
+                    <div class="col-md-3"> {{ field(class_='form-control') }}</div>
+                    <div class="col-md-7">
+                        {% for message in field.errors %}
+                            <p class="text-danger">{{ message }} </p>
+                        {% endfor %}
+
+                </div >
+            </div>
+        {% endfor %}
+  <input type="submit" class="btn btn-success col-md-offset-3" value="Sign Up">
+
+    </form>
+
 {% endblock %}

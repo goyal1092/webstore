@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 <h1> Thank you for shopping.</h1>
-<a href="{{ url_for('index') }}">Home
-</a>
+    <br>
+  <h3>You Order Details are mailed to you on your email address provided with other shipping details.</h3>
+<br>
+    <h4>Go back to<a href="{{ url_for('index') }}"> Home</a></h4>
+{% endblock %}
 </body>
 </html>

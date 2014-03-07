@@ -108,5 +108,8 @@ class Ordered(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60))
     quantity = db.Column(db.Integer)
-    price = db.Column(db.Integer)
+    amount = db.Column(db.String(60))
     order_id = db.Column(db.Integer)
+
+    def price(self):
+        return int(self.quantity) * float(self.amount)

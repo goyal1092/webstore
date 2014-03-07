@@ -1,31 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content%}
-<form method="post" name="admin-login">
+    <h2>Admin Login</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for category, message in messages %}
+      <p class="{{ category }}">{{ message }}</p>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="post" name="admin-login" class="form-horizontal">
             {{form.hidden_tag()}}
-            <div>
-                <label>
-                    {{ form.username.label }}
-                </label>
-                <div class="controls">
-                    {{form.username(size=20)}}
-                    {% for message in form.username.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-                </div>
+           {% for field in form if field.widget.input_type != 'hidden' %}
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">  {{ field.label }}<span class="text-danger">*</span></label>
+                    <div class="col-md-3"> {{ field(class_='form-control') }}</div>
+                    <div class="col-md-6">
+                        {% for message in field.errors %}
+                            <p class="text-danger">{{ message }} </p>
+                        {% endfor %}
+                    </div>
+                </div >
             </div>
-            <div class="control-group">
-                {{ form.password.label }}
-                <div class="controls">
-                    {{form.password(size=20)}}
-                    {% for message in form.password.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-primary">Sign in</button>
+        {% endfor %}
+                    <button type="submit" class="btn btn-primary col-md-offset-3">Sign in</button>
                 </div>
             </div>
         </form>

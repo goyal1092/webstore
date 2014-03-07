@@ -5,7 +5,7 @@ body #main{
 header{
     border-bottom: 1px solid dimgray;
     padding: 0,20px;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
 }
 
 header #header h2{
@@ -22,7 +22,7 @@ footer{
 
 #main #user_login{
     margin-top: 100px;
-    padding-left: 100px;
+    padding-left: 10px;
 }
 
 #main #show_products{
@@ -41,4 +41,29 @@ padding-top: 20px;
 
 #main #cart_table{
     margin-bottom: 30px;
+}
+
+.padding_top{
+    padding-top: 20px;
+}
+
+#main #catalog_product{
+    padding: 35px;
+}
+
+#main #catalog_product>div{
+    text-align: center;
+    padding: 10px;
+}
+
+#main #catalog_product>div:hover{
+    background: #e5e5e5;
+    border: 1px solid lightgrey;
+    margin: -1px;
+}
+
+#main #category_name{
+    background-color: #e5e5e5;
+    padding: 10px 10px 3px ;
+    border-bottom: 1px solid lightgrey;
 }

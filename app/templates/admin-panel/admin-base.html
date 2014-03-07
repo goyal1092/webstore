@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-Admin-Panel
+{% extends 'admin-panel/admin.html' %}
+{% block content %}
 
-<h2> <a href="{{ url_for('admin_logout') }}">Logout</a> </h2>
 
 <h2> <a href="{{ url_for('add_category') }}">Category</a> </h2>
 
@@ -14,5 +8,4 @@ Admin-Panel
 
 <h2> <a href="{{ url_for('orders') }}">sale list</a> </h2>
 
-</body>
-</html>
+{% endblock %}

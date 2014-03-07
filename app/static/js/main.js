@@ -6,4 +6,7 @@
         btn_id = '#save_'+id
         $(btn_id).show();
     });
+   $('#signup_form').on('click', function(){
+    $('#myModal').modal('show');
+});
 })();

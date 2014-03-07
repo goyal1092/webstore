@@ -2,26 +2,45 @@
 
 {% block content%}
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for category, message in messages %}
+      <p class="{{ category }}">{{ message }}</p>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
 <h1>Catalog</h1>
 
 {% for category in categories %}
-    <div id="show_products">
-        <h4>{{ category.name }}</h4>
-    <div class="col-md-offset-1">
+    <div class="row"><div id="show_products" class="col-md-12">
+        <h4 id="category_name">{{ category.name }}</h4>
+    <div>
         {% for product in products %}
         {% if category.id == product.category_id %}
-        <h5>{{ product.name }}</h5>
+       <div class="col-md-3" id="catalog_product">
+       <div >    <h4 class="text-primary">{{ product.name }}</h4>
         <p>price {{ product.price }}</p>
             <form name="add_quantity" method="post">
             {{ form.hidden_tag() }}
-            {{ form.quantity.label }}: {{ form.quantity(size=1) }}
+            <label>{{ form.quantity.label }}</label>:
+                {{ form.quantity(size=1) }}
+                {% for message in form.quantity.errors %}
+                            <p class="text-danger">{{ message }} </p>
+                        {% endfor %}
                 <input type="hidden" name="product_slug" value="{{ product.id }}">
-            <input type="submit" value="Add To Cart">
-            </form>
+                <br>
+                <br>
+            <input type="submit" value="Add To Cart" class="btn btn-success">
+            </form></div>
+       </div>
 
         {% endif %}
         {% endfor %}
     </div>
-    </div>
+    </div></div>
 {% endfor %}
 {% endblock %}

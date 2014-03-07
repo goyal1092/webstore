@@ -6,7 +6,7 @@ from forms import AdminLoginForm, CategoryForm, ProductForm, SignupForm, UserLog
 from models import Category, Product, User, Cart, Ordered, OrderId
 import datetime
 from email import signup, order_email
-
+from math import isnan
 
 
 @app.route('/base/')
@@ -19,21 +19,20 @@ def base():
 def index():
     count = shoppingcart.cart_distinct_item_count()
     form = UserLoginForm()
+    signup = SignupForm()
     if request.method == 'POST':
         user = User.query.filter_by(email=form.username.data).first()
         if form.validate_on_submit():
-            if user.check_password(form.password.data):
-                session['username'] = user.email
-                flash('login succesful')
-                resp = make_response(render_template('home.html', user=user, count=count))
-                resp.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
-                return resp
-            else:
-                flash('password error')
-        else:
-            flash('Login not valid')
+            if user:
+                if user.check_password(form.password.data):
+                    session['username'] = user.email
+                    flash('login succesful','text-success')
+                    resp = make_response(render_template('home.html', user=user, count=count))
+                    resp.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
+                    return resp
+            flash('Login not valid', 'text-danger')
 
-    return render_template('home.html', form=form, count=count)
+    return render_template('home.html', form=form, count=count, signup_form=signup)
 
 # User Logout
 @app.route('/user/logout/')
@@ -67,6 +66,7 @@ def user_signup():
         return redirect(url_for('index'))
     return render_template('signup.html', form=form, count=count)
 
+
 # Catalog
 @app.route('/catalog/', methods=['GET', 'POST'])
 def catalog():
@@ -76,6 +76,9 @@ def catalog():
         key = request.form['product_slug']
         product_id = Product.query.get(key)
         quantity = request.form['quantity']
+        if quantity == '' or int(quantity)< 1:
+            flash('please enter valid quantity','text-danger')
+            return redirect(url_for('catalog'))
         get_cart_id = shoppingcart.get_cart_id()
         date = datetime.date.today()
         cart_products = shoppingcart.get_cart_items()
@@ -130,13 +133,13 @@ def admin_login():
     form = AdminLoginForm()
     admin = Admin.query.filter_by(username=form.username.data).first()
     if form.validate_on_submit():
-        if admin.check_password(form.password.data):
+        if admin and admin.check_password(form.password.data):
             login_user(admin)
             resp = make_response(render_template('admin-panel/admin-base.html'))
             resp.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
             return resp
         else:
-            flash('Email and Password does not match')
+            flash('Check your username and password.','text-danger')
     return render_template('admin-login.html', form=form)
 
 # Admin Logout
@@ -339,7 +342,7 @@ def order_summary():
             db.session.commit()
 
             for item in cart:
-                order = Ordered(name=item.products.name, price=item.products.price, quantity=item.quantity, order_id=ordered_id)
+                order = Ordered(name=item.products.name, amount=item.products.price, quantity=item.quantity, order_id=ordered_id)
                 db.session.add(order)
                 db.session.delete(item)
                 db.session.commit()
