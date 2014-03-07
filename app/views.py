@@ -253,8 +253,8 @@ def specific_order(pk):
 
 '''User Account'''
 
-#  Add info
-@app.route('/user/account')
+#  Add User info
+@app.route('/user/account/info')
 def user_info():
     if 'username' in session:
         username = session['username']
@@ -264,6 +264,15 @@ def user_info():
     else:
         flash('Please Login', 'text-danger')
         return redirect(url_for('index'))
+# User base
+@app.route('/user/account')
+def user_base():
+    if 'username' in session:
+        return render_template('user-panel/user_base.html', cart_view=True)
+    else:
+        flash('Please Login', 'text-danger')
+        return redirect(url_for('index'))
+#  edit user info
 @app.route('/user/account/edit')
 def edit_info():
     if 'username' in session:
@@ -273,6 +282,7 @@ def edit_info():
         flash('Please Login', 'text-danger')
         return redirect(url_for('index'))
 
+# user change password
 @app.route('/user/account/change_password')
 def edit_password():
     if 'username' in session:
@@ -281,6 +291,29 @@ def edit_password():
     else:
         flash('Please Login', 'text-danger')
         return redirect(url_for('index'))
+
+@app.route('/user/account/order')
+def user_order():
+    if 'username' in session:
+        order = OrderId.query.filter_by(email=session['username'])
+        return render_template('user-panel/user_order.html', order=order, cart_view=True)
+    else:
+        flash('Please Login', 'text-danger')
+        return redirect(url_for('index'))
+
+@app.route('/user/account/order/<int:pk>', methods=['GET','POST'])
+def specific_user_order(pk):
+    if 'username' in session:
+        orders = OrderId.query.get(pk)
+        products = Ordered.query.filter_by(order_id=orders.order_id)
+        return render_template('user-panel/user_specific_order.html', order=orders, products=products)
+    else:
+        flash('Please Login', 'text-danger')
+        return redirect(url_for('index'))
+
+
+
+'''Checkout'''
 
 # Checkout Form
 @app.route('/checkout/details', methods=['GET', 'POST'])
