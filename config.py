@@ -12,9 +12,9 @@ MAIL_SERVER = 'smtp.googlemail.com'
 MAIL_PORT = 465
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
-MAIL_USERNAME = 'gauravgoyal1092@gmail.com'
-MAIL_PASSWORD = 'goodisbad'
-ADMINS = ['gauravgoyal1092@gmail.com']
+MAIL_USERNAME = 'webstore1092@gmail.com'
+MAIL_PASSWORD = 'test123456789'
+ADMINS = ['webstore1092@gmail.com']
 
 try:
     from local_config import *
