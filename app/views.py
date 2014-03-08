@@ -1,6 +1,6 @@
 from app import app, db, shoppingcart
 from flask import render_template, redirect, url_for, flash, make_response, request, session
-from flask.ext.login import login_required, login_user, logout_user
+from flask.ext.login import login_required, login_user, logout_user, current_user
 from models import Admin
 from forms import AdminLoginForm, CategoryForm, ProductForm, SignupForm, UserLoginForm, QuantityForm, UserInfoForm, ChangePasswordForm
 from models import Category, Product, User, Cart, Ordered, OrderId
@@ -53,7 +53,7 @@ def user_signup():
         user = User(email=form.email.data, password=form.password.data, name=form.full_name.data.title())
         db.session.add(user)
         db.session.commit()
-        signup([form.email.data])
+        #signup([form.email.data])
         flash('Thank you for signing up.', 'text-success')
         return redirect(url_for('index'))
     return render_template('signup.html', form=form, count=count, cart_view=True)
@@ -250,6 +250,18 @@ def specific_order(pk):
     ordered_products = Ordered.query.filter_by(order_id=order.order_id)
     return render_template('admin-panel/specific_order.html', order=order,products=ordered_products)
 
+# change password of admin
+@app.route('/user/account/change_password/', methods=['GET','POST'])
+@login_required
+def change_admin_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        password = form.password.data
+        current_user.password = current_user.set_password(password)
+        db.session.commit()
+        flash('password changed', 'text-success')
+        return redirect(url_for('admin_base'))
+    return render_template('admin-panel/change_password.html', form=form)
 
 '''User Account'''
 
@@ -311,7 +323,22 @@ def specific_user_order(pk):
         flash('Please Login', 'text-danger')
         return redirect(url_for('index'))
 
-
+#change password
+@app.route('/user/account/change_password/', methods=['GET','POST'])
+def change_user_password():
+    if 'username' in session:
+        form = ChangePasswordForm()
+        if form.validate_on_submit():
+            password = form.password.data
+            user = User.query.filter_by(email=session['username']).first()
+            user.password = user.set_password(password)
+            db.session.commit()
+            flash('password changed', 'text-success')
+            return redirect(url_for('user_base'))
+        return render_template('user-panel/change_password.html', form=form, cart_view=True)
+    else:
+        flash('Please Login', 'text-danger')
+        return redirect(url_for('index'))
 
 '''Checkout'''
 
