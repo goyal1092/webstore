@@ -56,7 +56,7 @@ def user_signup():
         userinfo = UserInfo(name=form.full_name.data, email=form.email.data, user_information=user)
         db.session.add(userinfo)
         db.session.commit()
-        #signup([form.email.data])
+        signup([form.email.data])
         flash('Thank you for signing up.', 'text-success')
         return redirect(url_for('index'))
     return render_template('signup.html', form=form, count=count, cart_view=True)
@@ -428,7 +428,7 @@ def order_summary():
             session.pop('details', None)
             id = OrderId.query.filter_by(order_id=ordered_id).first()
             product_id = Ordered.query.filter_by(order_id=ordered_id)
-            #order_email([id.email], id, product_id)
+            order_email([id.email], id, product_id)
             return render_template('thank_you.html')
 
         else:
