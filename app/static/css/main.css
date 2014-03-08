@@ -1,5 +1,5 @@
 body #main{
-    min-height: 600px;
+    min-height: 500px;
 }
 
 header{
@@ -21,7 +21,7 @@ footer{
 
 
 #main #user_login{
-    margin-top: 100px;
+    margin-top: 50px;
     padding-left: 10px;
 }
 
