@@ -35,7 +35,7 @@
 
 </header>
 
-<div id="main">
+<div id="main" style="margin-bottom: 20px">
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <ul class=flashes>
@@ -48,6 +48,8 @@
 <br>
 
  {% block content %} {% endblock %}
+
+</div>
 </div>
 
  <footer>
