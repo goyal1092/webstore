@@ -44,3 +44,6 @@ class UserInfoForm(Form):
 class ChangePasswordForm(Form):
     password = PasswordField('Password', validators=[Required('Password required'), EqualTo('confirm','Password does not match.')])
     confirm = PasswordField('Confirm_Password', validators=[Required('Enter confirm password')])
+
+class AddAccountForm(Form):
+    email = TextField('Email', validators=[Required('Email is required'), Email('Username not valid')])

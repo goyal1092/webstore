@@ -11,7 +11,8 @@
         {% for field in form if field.widget.input_type != 'hidden' %}
             <div class="col-md-12">
                 <div class="form-group">
-                    <label class="col-md-2 control-label">  {{ field.label }}<span class="text-danger">*</span></label>
+                    <label class="col-md-2 control-label">  {{ field.label }}
+                        <span class="text-danger">*</span></label>
                     <div class="col-md-3"> {{ field(class_='form-control') }}</div>
                     <div class="col-md-6">
                         {% for message in field.errors %}
@@ -54,14 +55,12 @@
                             <span class="glyphicon glyphicon-trash"></span>
                             Delete</a>
                     </td>
-
-
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-
+</div>
 
     <br>
     <div class="col-md-12"><a href="{{ url_for('admin_base') }}">Back to admin page</a></div>

@@ -9,4 +9,5 @@
    $('#signup_form').on('click', function(){
     $('#myModal').modal('show');
 });
+
 })();

@@ -2,10 +2,10 @@ from app import app, db, shoppingcart
 from flask import render_template, redirect, url_for, flash, make_response, request, session
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from models import Admin
-from forms import AdminLoginForm, CategoryForm, ProductForm, SignupForm, UserLoginForm, QuantityForm, UserInfoForm, ChangePasswordForm
+from forms import AdminLoginForm, CategoryForm, ProductForm, SignupForm, UserLoginForm, QuantityForm, UserInfoForm, ChangePasswordForm, AddAccountForm
 from models import Category, Product, User, Cart, Ordered, OrderId, UserInfo
 import datetime
-from email import signup, order_email
+from email import signup, order_email, send_pwd_url
 from math import isnan
 
 
@@ -159,7 +159,7 @@ def add_category():
         category = Category(name=form.name.data.title())
         db.session.add(category)
         db.session.commit()
-        flash("category named "+ category.name + " is added to database.")
+        flash("category named "+ category.name + " is added to database.", 'text-success')
         return redirect(url_for('add_category'))
     categories = Category.query.all()
     return render_template('admin-panel/category.html', form=form, categories=categories)
@@ -254,7 +254,7 @@ def specific_order(pk):
     return render_template('admin-panel/specific_order.html', order=order,products=ordered_products)
 
 # change password of admin
-@app.route('/user/account/change_password/', methods=['GET','POST'])
+@app.route('/admin/account/change_password/', methods=['GET','POST'])
 @login_required
 def change_admin_password():
     form = ChangePasswordForm()
@@ -265,6 +265,18 @@ def change_admin_password():
         flash('password changed', 'text-success')
         return redirect(url_for('admin_base'))
     return render_template('admin-panel/change_password.html', form=form)
+
+@app.route('/admin/account/add', methods=['GET', 'POST'])
+@login_required
+def add_account():
+    form = AddAccountForm()
+    if form.validate_on_submit():
+        admin = Admin(username=form.email.data)
+        db.session.add(admin)
+        db.session.commit()
+        admin1 = Admin.query.filter_by(email=form.email.data).first()
+        send_pwd_url(admin1.email,admin1.id)
+    return render_template('admin-panel/add-account.html', form=form)
 
 '''User Account'''
 
@@ -416,7 +428,7 @@ def order_summary():
             session.pop('details', None)
             id = OrderId.query.filter_by(order_id=ordered_id).first()
             product_id = Ordered.query.filter_by(order_id=ordered_id)
-            order_email([id.email], id, product_id)
+            #order_email([id.email], id, product_id)
             return render_template('thank_you.html')
 
         else:

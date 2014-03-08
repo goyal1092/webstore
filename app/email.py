@@ -23,3 +23,10 @@ def order_email(user_email, order, product):
                render_template('email/order-email.html', orderid=order, product=product)
 
     )
+
+def send_pwd_url(user_email,id):
+    send_email('Webstore Admin Request',
+               ADMINS[0],
+               user_email,
+               render_template('email/send-pwd.html', id)
+               )

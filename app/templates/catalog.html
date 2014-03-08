@@ -16,14 +16,15 @@
             <form name="add_quantity" method="post">
             {{ form.hidden_tag() }}
             <label>{{ form.quantity.label }}</label>:
-                {{ form.quantity(size=1) }}
+               <div> {{ form.quantity(size=1, class_='quant') }}</div>
                 {% for message in form.quantity.errors %}
                             <p class="text-danger">{{ message }} </p>
                         {% endfor %}
-                <input type="hidden" name="product_slug" value="{{ product.id }}">
+
+                <input type="hidden" name="product_slug" value="{{ product.id }}" >
                 <br>
                 <br>
-            <input type="submit" value="Add To Cart" class="btn btn-success">
+            <input type="submit" value="Add To Cart" class="btn btn-success ">
             </form></div>
        </div>
 
