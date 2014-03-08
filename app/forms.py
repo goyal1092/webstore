@@ -35,7 +35,7 @@ class QuantityForm(Form):
 class UserInfoForm(Form):
     name = TextField('Name', validators=[Required('please enter your name.')])
     email = TextField('Email', validators=[Required('Email is required'), Email('Username not valid')])
-    phone_no = IntegerField('Phone Number', validators=[Required('please enter you contact number.')])
+    phone = IntegerField('Phone Number', validators=[Required('please enter you contact number.')])
     address = TextAreaField('Address', validators=[Required('Please enter your address.')])
     city = TextField('City',validators=[Required('Please enter your city.')] )
     state = TextField('State', validators=[Required('Please enter your state.')])

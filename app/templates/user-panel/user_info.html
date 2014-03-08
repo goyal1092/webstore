@@ -1,40 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<h1>User Info</h1>
-{% for user in user %}
-<h2>email = {{ user.email }}</h2>
+{% extends 'base.html' %}
+{% block content%}
+    <h2>You Information</h2>
+    <br>
+    <br>
 
+    <form name="checkout" method="post" class="form-horizontal">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">  {{ field.label }}<span class="text-danger">*</span></label>
+                    <div class="col-md-3"> {{ field(class_='form-control') }}</div>
+                    <div class="col-md-6">
+                        {% for message in field.errors %}
+                            <p class="text-danger">{{ message }} </p>
+                        {% endfor %}
+                    </div>
+                </div >
+            </div>
+        {% endfor %}
 
-<form name="user_info" method="post" >
-    {{ form.name.label }}
+        <div class=" col-md-offset-2">
 
-    <input type="text" value="{{ user.name }}">
-
-    {% if user.user_information == ' ' %}
-    {{ form.phone_no.label }}
-    {{ form.phone_no }}
-
-    {{ form.address.label }}
-    {{ form.address }}
-
-    {{ form.city.label }}
-    {{ form.city }}
-
-    {{ form.pincode.label }}
-    {{ form.pincode }}
-
-    {{ form.state.label }}
-    {{ form.state }}
-    {% else %}
-        <p>value</p>
-    {% endif %}
-
-<input type="submit" value="Save Information"/>
-</form>
-{% endfor %}
-</body>
-</html>
+            <input type="submit" class="btn btn-success" value="Save Information"/>
+        </div>
+    </form>
+{% endblock %}

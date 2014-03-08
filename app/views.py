@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, make_response, requ
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from models import Admin
 from forms import AdminLoginForm, CategoryForm, ProductForm, SignupForm, UserLoginForm, QuantityForm, UserInfoForm, ChangePasswordForm
-from models import Category, Product, User, Cart, Ordered, OrderId
+from models import Category, Product, User, Cart, Ordered, OrderId, UserInfo
 import datetime
 from email import signup, order_email
 from math import isnan
@@ -27,6 +27,7 @@ def index():
                     resp = make_response(render_template('home.html', user=user, count=count, cart_view=True))
                     resp.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
                     return resp
+                    flash('Login not valid', 'text-danger')
             flash('Login not valid', 'text-danger')
 
     return render_template('home.html', form=form, count=count, signup_form=signup, cart_view=True)
@@ -52,6 +53,8 @@ def user_signup():
     if form.validate_on_submit():
         user = User(email=form.email.data, password=form.password.data, name=form.full_name.data.title())
         db.session.add(user)
+        userinfo = UserInfo(name=form.full_name.data, email=form.email.data, user_information=user)
+        db.session.add(userinfo)
         db.session.commit()
         #signup([form.email.data])
         flash('Thank you for signing up.', 'text-success')
@@ -266,12 +269,25 @@ def change_admin_password():
 '''User Account'''
 
 #  Add User info
-@app.route('/user/account/info')
+@app.route('/user/account/info', methods=['GET', 'POST'])
 def user_info():
     if 'username' in session:
         username = session['username']
-        user = User.query.filter_by(email=username)
-        form = UserInfoForm()
+        user = User.query.filter_by(email=username).first()
+        userinfo = UserInfo.query.filter_by(user_id=user.id).first()
+        form = UserInfoForm(obj=userinfo)
+        if form.validate_on_submit():
+            userinfo.address = form.address.data
+            userinfo.city = form.city.data
+            userinfo.phone = form.phone.data
+            userinfo.pincode = form.pincode.data
+            userinfo.state = form.pincode.data
+            userinfo.name = form.name.data
+            userinfo.email = form.email.data
+            db.session.commit()
+            flash('Information Saved.', 'text-success')
+            return render_template('user-panel/user_info.html', user=user, form=form, cart_view=True)
+
         return render_template('user-panel/user_info.html', user=user, form=form, cart_view=True)
     else:
         flash('Please Login', 'text-danger')
@@ -304,6 +320,7 @@ def edit_password():
         flash('Please Login', 'text-danger')
         return redirect(url_for('index'))
 
+# user order list
 @app.route('/user/account/order')
 def user_order():
     if 'username' in session:
@@ -313,6 +330,7 @@ def user_order():
         flash('Please Login', 'text-danger')
         return redirect(url_for('index'))
 
+# user's specific order details
 @app.route('/user/account/order/<int:pk>', methods=['GET','POST'])
 def specific_user_order(pk):
     if 'username' in session:
@@ -345,12 +363,17 @@ def change_user_password():
 # Checkout Form
 @app.route('/checkout/details', methods=['GET', 'POST'])
 def checkout_details():
-    form = UserInfoForm()
+    if 'username' in session:
+        user = User.query.filter_by(email=session['username']).first()
+        userinfo = UserInfo.query.filter_by(user_id=user.id).first()
+        form = UserInfoForm(obj=userinfo)
+    else:
+        form = UserInfoForm()
     if request.method == 'POST':
         if form.validate_on_submit():
             cd = {
-                'name': request.form['name'],
-                'phone': request.form['phone_no'],
+                'name': form.name.data,
+                'phone': request.form['phone'],
                 'address': request.form['address']+', '+ request.form['city']+'-'+request.form['state']+' ('+request.form['pincode']+')',
                 'email':request.form['email']
             }
@@ -358,7 +381,7 @@ def checkout_details():
             cart = shoppingcart.get_cart_items()
             total = shoppingcart.get_total_amount()
             return render_template('order_summary.html', cart=cart, checkout=cd, total=total)
-
+        return 'not valid'
     return render_template('checkout_details.html', form=form)
 
 @app.route('/checkout', methods=['POST'])

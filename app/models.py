@@ -75,7 +75,9 @@ class User(db.Model):
 
 class UserInfo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    phone_number = db.Column(db.Integer, unique=True)
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(120))
+    phone = db.Column(db.Integer)
     address = db.Column(db.String(120))
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
