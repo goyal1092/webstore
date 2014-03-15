@@ -372,7 +372,7 @@ def change_user_password():
 
 '''Checkout'''
 
-# Checkout Form
+# Checkout Form wd
 @app.route('/checkout/details', methods=['GET', 'POST'])
 def checkout_details():
     if 'username' in session:
